@@ -5,6 +5,7 @@ import {
 import {Home, SingleCourse, Cart, Courses} from "./pages";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import UserProfile from './components/UserProfile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path = "/" element = {<Home />} />
         <Route path = "/courses/:id" element = {<SingleCourse />} />
         <Route path = "/category/:category" element = {<Courses />} />
+        <Route path="/user-profile" element = {<UserProfile />}/>
         <Route path = "/cart" element = {<Cart />} />
       </Routes>
     </BrowserRouter>
