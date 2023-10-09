@@ -10,10 +10,9 @@ const CourseList = () => {
     <CoursesListWrapper>
       <div className='container'>
         <div className='courses-list-top'>
-          <h2>A broad selection of courses</h2>
-          <p>Choose from 204,000 online video courses with new additions publihsed every month</p>
+          <h2>My Courses</h2>
+            <p>Explore from DePauw's {courses.length} computer science coures as you filter according your desired area</p>
         </div>
-
         <Tabs courses = {courses} />
       </div>
     </CoursesListWrapper>

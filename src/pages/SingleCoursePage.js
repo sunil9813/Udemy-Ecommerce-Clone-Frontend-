@@ -1,26 +1,61 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from "styled-components";
-import { useCoursesContext } from '../context/courses_context';
 import StarRating from '../components/StarRating';
-import {MdInfo} from "react-icons/md";
-import {TbWorld} from "react-icons/tb";
-import {FaShoppingCart} from "react-icons/fa";
-import {RiClosedCaptioningFill} from "react-icons/ri";
-import {BiCheck} from "react-icons/bi";
-import {Link} from "react-router-dom";
+import { MdInfo } from "react-icons/md";
+import { TbWorld } from "react-icons/tb";
+import { FaGraduationCap } from "react-icons/fa";
+import { RiClosedCaptioningFill } from "react-icons/ri";
+import { BiCheck } from "react-icons/bi";
+import { Link } from "react-router-dom";
 import { useCartContext } from '../context/cart_context';
+import { useCoursesContext } from '../context/courses_context'; 
+import CourseTimeline from '../components/CourseTimeline';
 
 const SingleCoursePage = () => {
-  const {id} = useParams();
-  const {fetchSingleCourse, single_course} = useCoursesContext();
-  const {addToCart} = useCartContext();
+  const { id } = useParams();
+  const { fetchSingleCourse, single_course } = useCoursesContext();
+  const { addToCart } = useCartContext();
 
   useEffect(() => {
     fetchSingleCourse(id);
   }, []);
 
-  const {id: courseID, category, image, course_name, description, rating_count, rating_star, students, creator, updated_date, lang, actual_price, discounted_price, what_you_will_learn: learnItems, content} = single_course;
+  const [expandedContentIndex, setExpandedContentIndex] = useState(-1);
+
+  const { id: courseID, category, image, course_name, description, rating_count, rating_star, students, creator, updated_date, lang, actual_price, discounted_price, what_you_will_learn: learnItems, content } = single_course;
+
+  const weeksData = [
+    {
+      title: "AUGUST 23",
+      videoUrl: "https://www.youtube.com/embed/your-video-id-1",
+      text: "The first day covers the introduction to the course and sets the foundation for the topics to be covered."
+    },
+    {
+      title: "AUGUST 25",
+      videoUrl: "https://www.youtube.com/embed/your-video-id-2",
+      text: "On day 2, we dive deeper into the core concepts and start hands-on exercises."
+    },
+    {
+      title: "AUGUST 27",
+      videoUrl: "https://www.youtube.com/embed/your-video-id-2",
+      text: "On day 3, we dive deeper into the core concepts and start hands-on exercises."
+    },
+    {
+      title: "AUGUST 29",
+      videoUrl: "https://www.youtube.com/embed/your-video-id-2",
+      text: "On day 4, we dive deeper into the core concepts and start hands-on exercises."
+    },
+    // Add more weeks as needed
+  ];
+
+  const toggleContent = (index) => {
+    if (expandedContentIndex === index) {
+      setExpandedContentIndex(-1);
+    } else {
+      setExpandedContentIndex(index);
+    }
+  };
 
   return (
     <SingleCourseWrapper>
@@ -44,7 +79,7 @@ const SingleCoursePage = () => {
 
             <ul className='course-info'>
               <li>
-                <span className='fs-14'>Created by <span className='fw-6 opacity-08'>{creator}</span></span>
+                <span className='fs-14'>Taught by <span className='fw-6 opacity-08'>{creator}</span></span>
               </li>
               <li className='flex'>
                 <span><MdInfo /></span>
@@ -63,14 +98,14 @@ const SingleCoursePage = () => {
 
           <div className='course-foot'>
             <div className='course-price'>
-              <span className='new-price fs-26 fw-8'>${discounted_price}</span>
-              <span className='old-price fs-26 fw-6'>${actual_price}</span>
+              <span className='new-price fs-26 fw-8'>Slot Left:  {discounted_price}</span>
+              {/* <span className='old-price fs-26 fw-6'>${actual_price}</span> */}
             </div>
           </div>
 
           <div className='course-btn'>
             <Link to = "/cart" className='add-to-cart-btn d-inline-block fw-7 bg-purple' onClick={() => addToCart(courseID, image, course_name, creator, discounted_price, category)}>
-              <FaShoppingCart /> Add to cart
+              <FaGraduationCap />  Enroll Now
             </Link>
           </div>
         </div>
@@ -78,12 +113,12 @@ const SingleCoursePage = () => {
 
       <div className='course-full bg-white text-dark'>
         <div className='course-learn mx-auto'>
-          <div className='course-sc-title'>What you'll learn</div>
+          <div className='course-sc-title'>What You'll Learn</div>
           <ul className='course-learn-list grid'>
             {
               learnItems && learnItems.map((learnItem, idx) => {
                 return (
-                  <li key = {idx}>
+                  <li key={idx}>
                     <span><BiCheck /></span>
                     <span className='fs-14 fw-5 opacity-09'>{learnItem}</span>
                   </li>
@@ -94,17 +129,34 @@ const SingleCoursePage = () => {
         </div>
 
         <div className='course-content mx-auto'>
-          <div className='course-sc-title'>Course content</div>
+          <div className='course-sc-title'>Course Structure</div>
           <ul className='course-content-list'>
             {
               content && content.map((contentItem, idx) => {
                 return (
-                  <li key = {idx}>
-                    <span>{contentItem}</span>
+                  <li key={idx}>
+                    <ContentItemHeader onClick={() => toggleContent(idx)}>
+                      <span>{expandedContentIndex === idx ? '-' : '+'}</span>
+                      <span>Week {idx + 1}</span>
+                    </ContentItemHeader>
+                    {expandedContentIndex === idx && (
+                      <ContentItemBody>
+                        <span>Week {idx + 1}'s planned work</span>
+                      </ContentItemBody>
+                    )}
                   </li>
                 )
               })
             }
+          </ul>
+        </div>
+
+        <div className='course-content mx-auto'>
+          <div className='course-sc-title'>Course Content</div>
+          <ul className='course-content-list'>
+            <li>
+              <CourseTimeline weeks={weeksData} />
+            </li>
           </ul>
         </div>
       </div>
@@ -247,4 +299,33 @@ const SingleCourseWrapper = styled.div`
 
 `;
 
-export default SingleCoursePage
+const ContentItemHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background 0.3s, color 0.3s;
+
+  span {
+    font-size: 20px;
+  }
+
+  &:hover {
+    background: #f0f0f0;
+  }
+`;
+
+const ContentItemBody = styled.div`
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+`;
+
+export default SingleCoursePage;
