@@ -4,6 +4,7 @@ import { MdMenu, MdShoppingCart } from "react-icons/md";
 import { Link } from 'react-router-dom'; // Import Link for routing
 import { useSidebarContext } from '../context/sidebar_context';
 import { useCartContext } from '../context/cart_context';
+import { FaGraduationCap } from "react-icons/fa";
 
 const Navbar = ({ name, image, gradYear, numCourses, major }) => {
   const { total_items } = useCartContext();
@@ -25,7 +26,7 @@ const Navbar = ({ name, image, gradYear, numCourses, major }) => {
 
           <div className='navbar-btns flex'>
             <Link to="/cart" className='cart-btn'>
-              <MdShoppingCart />
+              <FaGraduationCap />
               <span className='item-count-badge'>{total_items}</span>
             </Link>
             <button type="button" className='sidebar-open-btn' onClick={() => openSidebar()}>

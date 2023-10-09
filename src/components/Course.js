@@ -22,13 +22,13 @@ const Course = (props) => {
           <span className='rating-count'>({rating_count})</span>
         </div>
         <div className='item-price'>
-          <span className='item-price-new'>${discounted_price}</span>
-          <span className='item-price-old'>${actual_price}</span>
+          <span className='item-price-new'>Slots Left: {discounted_price}</span>
+          {/* <span className='item-price-old'>${actual_price}</span> */}
         </div>
       </div>
       <div className='item-btns flex'>
         <Link to = {`/courses/${id}`} className = "item-btn see-details-btn">See details</Link>
-        <Link to = "/cart" className='item-btn add-to-cart-btn' onClick={() => addToCart(id, image, course_name, creator, discounted_price, category)}>Add to cart</Link>
+        <Link to = "/cart" className='item-btn add-to-cart-btn' onClick={() => addToCart(id, image, course_name, creator, discounted_price, category)}>Enroll Now</Link>
       </div>
     </CourseCard>
   )

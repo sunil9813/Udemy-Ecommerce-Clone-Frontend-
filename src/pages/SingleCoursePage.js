@@ -4,7 +4,7 @@ import styled from "styled-components";
 import StarRating from '../components/StarRating';
 import { MdInfo } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaGraduationCap } from "react-icons/fa";
 import { RiClosedCaptioningFill } from "react-icons/ri";
 import { BiCheck } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -79,7 +79,7 @@ const SingleCoursePage = () => {
 
             <ul className='course-info'>
               <li>
-                <span className='fs-14'>Created by <span className='fw-6 opacity-08'>{creator}</span></span>
+                <span className='fs-14'>Taught by <span className='fw-6 opacity-08'>{creator}</span></span>
               </li>
               <li className='flex'>
                 <span><MdInfo /></span>
@@ -98,14 +98,14 @@ const SingleCoursePage = () => {
 
           <div className='course-foot'>
             <div className='course-price'>
-              <span className='new-price fs-26 fw-8'>${discounted_price}</span>
-              <span className='old-price fs-26 fw-6'>${actual_price}</span>
+              <span className='new-price fs-26 fw-8'>Slot Left:  {discounted_price}</span>
+              {/* <span className='old-price fs-26 fw-6'>${actual_price}</span> */}
             </div>
           </div>
 
           <div className='course-btn'>
             <Link to = "/cart" className='add-to-cart-btn d-inline-block fw-7 bg-purple' onClick={() => addToCart(courseID, image, course_name, creator, discounted_price, category)}>
-              <FaShoppingCart /> Add to cart
+              <FaGraduationCap />  Enroll Now
             </Link>
           </div>
         </div>
@@ -141,7 +141,7 @@ const SingleCoursePage = () => {
                     </ContentItemHeader>
                     {expandedContentIndex === idx && (
                       <ContentItemBody>
-                        <span>{contentItem.description}</span>
+                        <span>Week {idx + 1}'s planned work</span>
                       </ContentItemBody>
                     )}
                   </li>

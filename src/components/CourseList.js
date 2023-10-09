@@ -11,7 +11,7 @@ const CourseList = () => {
       <div className='container'>
         <div className='courses-list-top'>
           <h2>My Courses</h2>
-            <p>Explore from the {courses.length} online learning modules as you filter according your desired subject</p>
+            <p>Explore from DePauw's {courses.length} computer science coures as you filter according your desired area</p>
         </div>
         <Tabs courses = {courses} />
       </div>
